@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de Ventas  -->
+
+
+        <!-- Vista tree de ventas (Presupuesto) -->
+
+        <record model="ir.ui.view" id="sale_project_inherit_tree">
+            <field name="name">Sales</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="service_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista tree de ventas (Pedidos a facturar) -->
+
+        <record model="ir.ui.view" id="sale_project_order_inherit_tree">
+            <field name="name">Sales</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="service_id" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!-- Vista form de ventas  -->
+
+
+        <record model="ir.ui.view" id="sale_order_add_form">
+            <field name="name">Sale Order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="service_id" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

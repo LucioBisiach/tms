@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="tms_services_tree" model="ir.ui.view">
+        <field name="name">tms.services.tree</field>
+        <field name="model">services.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Servicios" 
+            decoration-danger="state_document==False or state_inv_s==False or state_inv_p==False" 
+            decoration-success="state_document==True and state_inv_s==True and state_inv_p==True" 
+            default_order="date_start desc, date_stop desc">
+                <field name="name" string="N° Servicio"/>
+                <field name="label_service" string="Material/Referencia"/>
+                <field name="customer"/>
+                <field name="supplier"/>
+                <!-- <field name="employee"  widget="many2many_tags"/> -->
+                <!-- <field name="fleet"/> -->
+                <!-- <field name="fleet_add"/> -->
+                <field name="location_load" widget="many2many_tags"/>
+                <field name="location_download" widget="many2many_tags"/>
+                <field name="date_start" string="Inicio" widget="date"/>
+                <field name="date_stop" string="Fin" widget="date"/>
+                <field name="n_ref" string="N° Referencia"/>
+                <field name="state_document" string="Doc's"/>
+                <field name="state_inv_s" string="FACT V"/>
+                <field name="state_inv_p" string="FACT C"/>
+		        <field name="state_invoice" invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="tms_services_form" model="ir.ui.view">
+        <field name="name">tms.services.form</field>
+        <field name="model">services.tms</field>
+        <field name="arch" type="xml">
+            <form >
+                <header>
+                    <button name="status_draft" string="Borrador" icon="fa-file" class="btn btn-warning" type="object" attrs="{'invisible': ['|', ('state','=','draft'), ('state','=','finalized')]}"/>
+                    <button name="status_confirmed" string="Confirmar" icon="fa-thumbs-up" class="btn btn-success" type="object" attrs="{'invisible': ['|', '|', ('state','=','confirmed'), ('state','=','finalized'), ('state','=','cancelled')]}"/>
+                    <button name="status_finalized" string="Finalizar" icon="fa-check-square-o" class="btn btn-success" type="object" attrs="{'invisible': ['|', '|', ('state','=','draft'), ('state','=','cancelled'), ('state','=','finalized')]}"/>
+                    <button name="status_cancelled" string="Cancelar" icon="fa-reply" class="btn btn-warning" type="object" attrs="{'invisible': ['|', '|', ('state','=','draft'), ('state','=','cancelled')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,finalized,cancelled"/>
+                </header>
+                <sheet string="Servicios">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="act_show_expenses" icon="fa-usd">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_expenses" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </span>
+                                <span class="o_stat_text">Gastos</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="act_show_sales" icon="fa-usd">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_sales" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </span>
+                                <span class="o_stat_text">Ventas</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="act_show_purchases" icon="fa-usd" attrs="{'invisible': [('outsourced_service','=',False)]}">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="total_purchases" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </span>
+                                <span class="o_stat_text">Compras</span>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h2>
+                            <field name="name" decoration-bf="name"/>
+                            <field name="label_service" placeholder="Referencia / Material transportado"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <field name="outsourced_service" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        <field name="customer" attrs="{'readonly':[('state','!=','draft')]}" />
+                    </group>
+                    <notebook>
+                        <page string="Detalle"> 
+                            <group>
+                                <group string="Fechas">
+                                    <field name="date_start" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="date_stop" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    
+                                </group>
+                                <group string="Direcciones">
+                                    <field name="location_load" widget='many2many_tags' attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="location_download" widget='many2many_tags' attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                                <group string="Proveedor" attrs="{'invisible': [('outsourced_service','!=',True)]}">
+                                    <field name="supplier" attrs="{'invisible': [('outsourced_service','=',False)], 'readonly':[('state','!=','draft')]}" domain="[('es_transportista','=','si')]"/>
+                                </group>
+                                <group string="Empleado y Flota Tercerizada" attrs="{'invisible': [('outsourced_service','!=',True)]}">
+                                    <field name="employee_third" domain="[('belonging_to','=',supplier)]" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="fleet_third" domain="[('belonging_to','=',supplier)]" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="fleet_add_third" domain="[('belonging_to','=',supplier)]" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                            </group>
+                            <group string="Asignaciones" attrs="{'invisible': [('outsourced_service','=',True)]}">
+                                <field name="employee" widget='many2many_tags' attrs="{'readonly':[('state','!=','draft')]}" />
+                                <field name="fleet" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="fleet_add" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                            <div>
+                                <field name="note" placeholder="Nota..." attrs="{'readonly':[('state','!=','draft')]}" decoration-bf="note"/>
+                            </div>
+                        </page>
+                        <page string="Odometro" attrs="{'invisible': [('outsourced_service','=',True)]}">
+                            <group string="Odometro" >
+                                <field name="odo_total" string="Kilometros recorridos"/>
+                            </group>
+                            <group>
+                                <field name="ids_odometer" nolabel="1">
+                                    <tree editable="buttom" >
+                                        <field name="name"/>
+                                        <field name="employee"/>
+                                        <field name="ref_services" string="Reference Number" invisible="True"/>
+                                        <field name="date" />
+                                        <field name="odo_start"/>
+                                        <field name="odo_end"/>
+                                        <field name="odo_total"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Documentos">
+                            <group string="Documentos">
+                                <field name="n_ref" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="lst_documents">
+                                    <tree editable="buttom">
+                                        <field name="name" string="Document Number"/>
+                                        <field name="n_ref" string="Reference Number" invisible="True"/>
+                                        <field name="document_pdf_filename" invisible="1"/>
+                                        <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="File"/> 
+                                        <field name="note" string="Note"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Finanzas">
+                            <group string="Residual">
+                                <field name="total_sales" widget="monetary" options="{'currency_field': 'currency_id'}" string="Total Ventas"/>
+                                <field name="total_purchases" widget="monetary" options="{'currency_field': 'currency_id'}" string="Total Compras" attrs="{'invisible': [('outsourced_service','!=',True)]}"/>
+                                <field name="total_expenses" widget="monetary" options="{'currency_field': 'currency_id'}" string="Total Gastos"/>
+                                <field name="residual" widget="monetary" options="{'currency_field': 'currency_id'}" string="Residual"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_services_tms" model="ir.actions.act_window">
+        <field name="name">Todos los servicios</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">services.tms</field>
+        <field name="view_mode">tree,kanban,form,timeline</field>
+        <field name="view_id" ref="tms.tms_services_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Crear primer Servicio !
+            </p>
+        </field>
+    </record>
+    
+    <menuitem id="tms_action_services" name="Lista de Servicios" parent="tms_label_services" action="action_services_tms" sequence="1"/>
+
+
+    <record id="tms_own_services_tree" model="ir.ui.view">
+        <field name="name">tms.own.services.tree</field>
+        <field name="model">services.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Servicios tercerizados" 
+            decoration-danger="state_document==False or state_inv_s==False or state_inv_p==False" 
+            decoration-success="state_document==True and state_inv_s==True and state_inv_p==True" 
+            default_order="date_start desc, date_stop desc">
+                <field name="name" string="N° Servicio"/>
+                <field name="label_service"/>
+                <field name="customer"/>
+                <field name="employee" widget="many2many_tags"/>
+                <field name="fleet"/>
+                <field name="fleet_add"/>
+                <field name="location_load" widget="many2many_tags"/>
+                <field name="location_download" widget="many2many_tags"/>
+                <field name="date_start" string="Inicio" widget="date"/>
+                <field name="date_stop" string="Fin" widget="date"/>
+                <field name="n_ref" string="N° Referencia"/>
+                <field name="state_document" string="Doc's"/>
+                <field name="state_inv_s" string="FACT V"/>
+                <field name="state_inv_p" string="FACT C"/>
+                <field name="state_invoice" invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_own_services_tms" model="ir.actions.act_window">
+        <field name="name">Servicios Propios</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">services.tms</field>
+        <field name="view_mode">tree,kanban,form,timeline</field>
+        <field name="domain">[('outsourced_service','=',False)]</field>
+        <field name="view_id" ref="tms.tms_own_services_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Crear primer servicio propio!
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="tms_menu_services" name="Servicios" parent="tms_root" sequence="1"/>
+    
+        <menuitem id="tms_label_services" name="Servicios" parent="tms_menu_services"/>
+
+            <menuitem id="tms_action_own_services" name="Propios" parent="tms_label_services" action="action_own_services_tms" sequence="2"/>
+
+
+
+
+
+    <record id="tms_outsourced_services_tree" model="ir.ui.view">
+        <field name="name">tms.outsourced.services.tree</field>
+        <field name="model">services.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Servicios tercerizados" 
+            decoration-danger="state_document==False or state_inv_s==False or state_inv_p==False" 
+            decoration-success="state_document==True and state_inv_s==True and state_inv_p==True" 
+            default_order="date_start desc, date_stop desc">
+                <field name="name" string="N° Servicio"/>
+                <field name="label_service"/>
+                <field name="customer"/>
+                <field name="supplier"/>
+                <field name="employee_third" string="Chofer"/>
+                <field name="fleet_third" string="Tractor"/>
+                <field name="fleet_add_third" string="Acoplado"/>
+                <field name="location_load" widget="many2many_tags"/>
+                <field name="location_download" widget="many2many_tags"/>
+                <field name="date_start" string="Inicio" widget="date"/>
+                <field name="date_stop" string="Fin" widget="date"/>
+                <field name="n_ref" string="N° Referencia"/>
+                <field name="state_document" string="Doc's"/>
+                <field name="state_inv_s" string="FACT V"/>
+                <field name="state_inv_p" string="FACT C"/>
+		        <field name="state_invoice" invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_outsourced_services_tms" model="ir.actions.act_window">
+        <field name="name">Servicios Tercerizados</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">services.tms</field>
+        <field name="view_mode">tree,kanban,form,timeline</field>
+        <field name="domain">[('outsourced_service','=',True)]</field>
+        <field name="context">{'default_outsourced_service': True}</field>
+        <field name="view_id" ref="tms.tms_outsourced_services_tree" />
+
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Crear primer Servicio Tercerizado !
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_action_outsourced_services" name="Tercerizados" parent="tms_label_services" action="action_outsourced_services_tms" sequence="3"/>
+
+
+    <record id="view_service_tms_timeline" model="ir.ui.view">
+        <field name="model">services.tms</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline date_start="date_start"
+                    date_stop="date_stop"
+                    string="Servicios"
+                    default_group_by="fleet"
+                    event_open_popup="true"
+                    colors="#eb857a:state == draft;#64ed9e:state=='finalized';"
+                    zoomKey="ctrlKey">
+                <field name="fleet"/>
+                <field name="fleet_add"/>
+                <field name="customer" />
+                <templates>
+                    <div t-name="timeline-item">
+                        Servicio de: 
+                        <span t-esc="record.customer[1]" />
+                        Acoplado asignado: 
+                        <span t-esc="record.fleet_add[1]"/>
+                    </div>
+                </templates>
+            </timeline>
+        </field>
+    </record>
+
+    <record id="action_services_tms_timeline" model="ir.actions.act_window">
+        <field name="name">Servicios</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">services.tms</field>
+        <field name="view_mode">timeline</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear primer Servicio !
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_action_services_timeline" name="Linea de tiempo de Servicios (Flota)" parent="tms_label_services" action="action_services_tms_timeline" sequence="4"/>
+            
+
+    <record id="tms_document_services_tms_tree" model="ir.ui.view">
+        <field name="name">document.services.tms.tree</field>
+        <field name="model">document.services.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Documents of Services" create="0" editable="bottom">
+                <field name="name"/>
+                <field name="ref_services"/>
+                <field name="n_ref"/>
+                <field name="document_pdf_filename" invisible="1"/>
+                <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="Archivo"/> 
+            </tree>
+        </field>
+    </record>
+
+
+<record id="tms_documents_services_form" model="ir.ui.view">
+        <field name="name">tms.documents.ervices.form</field>
+        <field name="model">document.services.tms</field>
+        <field name="arch" type="xml">
+            <form >
+                <sheet string="Documents of Services">
+                    <div>
+                        <h2>
+                            <field name="name" decoration-bf="name"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="ref_services"/>
+                            <field name="n_ref"/>
+                        </group>
+                        <group>
+                            <field name="document_pdf_filename" invisible="1"/>
+                            <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="Archivo"/> 
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_documents_services_tms" model="ir.actions.act_window">
+        <field name="name">Document of Services</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">document.services.tms</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create Document of Service !
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="tms_label_services_document" name="Documentos de Servicios" parent="tms_menu_services"/>
+
+
+        <menuitem id="tms_action_documents_services" name="Documentos" parent="tms_label_services_document" action="action_documents_services_tms"/>
+
+
+</odoo>

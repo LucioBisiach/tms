@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<!-- Vistas de linea de vencimiento y formulario para empleados flota y compañia -->
+
+
+    <record id="expiry_documents_tms_form" model="ir.ui.view">
+        <field name="name">expiry.documents.tms.form</field>
+        <field name="model">expiry.documents.tms</field>
+        <field name="arch" type="xml">
+            <form string="Vencimientos">
+                <sheet string="Documents">
+                    <div>
+                        <h2>
+                            <field name="name" decoration-bf="name" placeholder="Name"/>
+                        </h2>
+                        <h5>
+                            <field name="tipe" decoration-bf="tipe" placeholder="Type..."/>
+                        </h5>
+                    </div>
+                    <group>
+                        <group name="fleet" attrs="{'invisible': [('tipe','!=','fleet')]}">
+                            <field name="fleet"/>
+                        </group>
+                        <group name="employee" attrs="{'invisible': [('tipe','!=','employee')]}">
+                            <field name="employee"/>
+                        </group>
+                        <group name="notification">
+                            <field name="days_notification"/>
+                            <field name="frecuencia_notifiacion"/>
+                            
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="expiry_list" string="Expiry Documents">
+                            <field name="list_expiry_document">
+                                <tree editable="buttom">
+                                    <field name="name"/>
+                                    <field name="date_stop"/>
+                                    <field name="days_remaining"/>
+                                    <field name="state"/>
+                                    <field name="archived"/>
+                                    <field name="tipe" invisible="True"/>
+                                    <field name="document_pdf_filename" invisible="1"/>
+                                    <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="File"/> 
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record> 
+
+    <record id="expiry_list_documents_tms_tree" model="ir.ui.view">
+        <field name="name">list.expiry.documents.tms.tree</field>
+        <field name="model">list.expiry.documents.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Vencimientos"
+            decoration-danger="state=='defeated' or state=='today'" 
+            decoration-success="state=='updated'"
+            decoration-warning="state=='next'"
+            decoration-bf="state=='defeated' or state=='today' or state=='next'"
+            default_order="date_stop asc"
+            create="0" editable="bottom"
+            >
+                <field name="name"/>
+                <field name="document_name"/>
+                <field name="date_stop"/>
+                <field name="days_remaining"/>
+                <field name="state" widget="label_selection"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="expiry_list_documents_tms_form" model="ir.ui.view">
+        <field name="name">list.expiry.documents.tms.form</field>
+        <field name="model">list.expiry.documents.tms</field>
+        <field name="arch" type="xml">
+            <form string="Vencimientos">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,next,updated,defeated"/>
+                </header>
+                <sheet string="Expiry Document">
+                    <div>
+                        <h2>
+                            <field name="name" decoration-bf="name" placeholder="Name"/>
+                        </h2>
+                        <h5>
+                            <field name="document_name" decoration-bf="document_name" placeholder="Type..."/>
+                        </h5>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_stop"/>
+                            <field name="days_remaining"/>
+                        </group>
+                        <group>
+                            <field name="document_pdf_filename" invisible="1"/>
+                            <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="File"/> 
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="expiry_documents_tms_fleet_tree" model="ir.ui.view">
+        <field name="name">fleet.expiry.documents.tms.tree</field>
+        <field name="model">expiry.documents.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Vencimientos">
+                <field name="name"/>
+                <field name="fleet"/>
+                <field name="tipe"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_list_document_fleet_tms" model="ir.actions.act_window">
+        <field name="name">Vencimientos de flota</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">list.expiry.documents.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('archived','=',False), ('tipe','=','fleet')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Crear nuevo vencimiento !
+            </p>
+        </field>
+    </record>
+
+    <record id="action_group_document_fleet_tms" model="ir.actions.act_window">
+        <field name="name">Vencimientos de flota</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">expiry.documents.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipe', '=', 'fleet')]</field>
+        <field name="context">{'default_tipe': 'fleet'}</field>
+        <field name="view_id" ref="tms.expiry_documents_tms_fleet_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Crear nuevo vencimiento !
+            </p>
+        </field>
+    </record>
+
+
+
+    <menuitem id="tms_menu_expiry_documents" name="Vencimientos" parent="tms_root" sequence="3"/>
+
+            
+        <menuitem id="tms_label_expiry_document_fleet" name="Flota" parent="tms_menu_expiry_documents"/>
+
+            <menuitem id="tms_menu_expiry_documents_fleet" name="Vencimientos" parent="tms_label_expiry_document_fleet" action="action_list_document_fleet_tms"/>
+
+            <menuitem id="tms_menu_expiry_documents_group_fleet" name="Grupo de Vencimientos" parent="tms_label_expiry_document_fleet" action="action_group_document_fleet_tms"/>
+
+
+
+    <record id="expiry_documents_tms_employee_tree" model="ir.ui.view">
+        <field name="name">employee.expiry.documents.tms.tree</field>
+        <field name="model">expiry.documents.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Vencimientos">
+                <field name="name"/>
+                <field name="employee"/>
+                <field name="tipe"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+    <record id="action_list_document_employee_tms" model="ir.actions.act_window">
+        <field name="name">Employee Documents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">list.expiry.documents.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('archived','=',False), ('tipe','=','employee')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create new Expiry Document !
+            </p>
+        </field>
+    </record>
+        
+    <record id="action_employee_document_tms" model="ir.actions.act_window">
+        <field name="name">Employee Documents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">expiry.documents.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipe', '=', 'employee')]</field>
+        <field name="context">{'default_tipe': 'employee'}</field>
+
+        <field name="view_id" ref="tms.expiry_documents_tms_employee_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create new Expiry Document !
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="tms_label_expiry_document_employee" name="Empleado" parent="tms_menu_expiry_documents"/>
+
+        <menuitem id="tms_menu_expiry_documents_employee" name="Vencimientos" parent="tms_label_expiry_document_employee" action="action_list_document_employee_tms"/>
+
+        <menuitem id="tms_menu_expiry_documents_group_employee" name="Grupo de Vencimientos" parent="tms_label_expiry_document_employee" action="action_employee_document_tms"/>
+
+
+    <record id="action_list_document_company_tms" model="ir.actions.act_window">
+        <field name="name">Vencimientos de la compañia</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">list.expiry.documents.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('archived','=',False), ('tipe','=','company')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            crear nuevo vencimiento!
+            </p>
+        </field>
+    </record>
+    
+    <record id="action_company_document_tms" model="ir.actions.act_window">
+        <field name="name">Vencimientos de la compañia</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">expiry.documents.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipe', '=', 'company')]</field>
+        <field name="context">{'default_tipe': 'company'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            crear nuevo vencimiento!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_label_expiry_document_company" name="Compañia" parent="tms_menu_expiry_documents"/>
+
+        <menuitem id="tms_menu_expiry_documents_company" name="Vencimientos" parent="tms_label_expiry_document_company" action="action_list_document_company_tms"/>
+
+        <menuitem id="tms_menu_expiry_documents_group_company" name="Grupo de Vencimientos" parent="tms_label_expiry_document_company" action="action_company_document_tms"/>
+
+
+</odoo>

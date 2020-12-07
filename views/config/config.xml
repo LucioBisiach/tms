@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!-- Location Tree Views -->
+
+    <record id="tms_places_tree" model="ir.ui.view">
+        <field name="name">places.tms.tree</field>
+        <field name="model">places.tms</field>
+        <field name="arch" type="xml">
+            <tree string="List of Locations">
+                <field name="name"/>
+                <field name="url_googlemaps" widget="url"/> 
+            </tree>
+        </field>
+    </record>
+
+    <!-- Location Form Views -->
+    <record id="tms_places_form" model="ir.ui.view">
+        <field name="name">places.tms.form</field>
+        <field name="model">places.tms</field>
+        <field name="arch" type="xml">
+            <form string="Locations">
+                <sheet string="Locations">
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="country_id"/>
+                        <field name="state_id"/>
+                    </group>
+                    <group>
+                        <field name="url_googlemaps" widget="url"/> 
+                    </group>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Location Action -->
+
+    <record id="action_tms_places" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">places.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Location Load / Download !
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_menu_config" name="Configuración" parent="tms_root" sequence="10"/>
+
+        <menuitem id="tms_label_places" name="Localidades" parent="tms_menu_config"/>
+
+            <menuitem id="tms_action_places" name="Lista de Localidades" parent="tms_label_places" action="action_tms_places"/>
+
+
+
+    <!-- Outsourced employee Tree Views -->
+
+    <record id="tms_third_employee_tree" model="ir.ui.view">
+        <field name="name">employee.third.tms.tree</field>
+        <field name="model">employee.third.tms</field>
+        <field name="arch" type="xml">
+            <tree string="List of Outsources Employee">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Outsourced employee Form Views -->
+    <record id="tms_third_employee_form" model="ir.ui.view">
+        <field name="name">employee.third.tms.form</field>
+        <field name="model">employee.third.tms</field>
+        <field name="arch" type="xml">
+            <form string="Outsourced Employee">
+                <sheet string="Employee">
+                    <div>
+                        <h2>
+                            <field name="name" decoration-bf="name" placeholder="Name"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="phone" widget="phone"/>
+                            <field name="belonging_to" domain="[('es_transportista','=','si')]"/>
+                        </group>
+                        <group>
+                            <field name="email" widget="email"/>
+                            <field name="indetification_number"/>
+                        </group>
+                    </group>
+                    <div>
+                        <field name="note" placeholder="Note..." decoration-bf="note"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Outsourced employee Action -->
+
+    <record id="action_tms_third_employee" model="ir.actions.act_window">
+        <field name="name">Empleados Tercerizados</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.third.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear empleados tercerizados !
+            </p>
+        </field>
+    </record>
+
+        <!-- Outsourced fleet Tree Views -->
+
+    <record id="tms_third_fleet_tree" model="ir.ui.view">
+        <field name="name">fleet.third.tms.tree</field>
+        <field name="model">fleet.third.tms</field>
+        <field name="arch" type="xml">
+            <tree string="List of Outsources Fleet">
+                <field name="name"/>
+                <field name="belonging_to"/>
+                <field name="año"/>
+                <field name="pais"/>
+                <field name="nro_chasis"/>
+                <field name="cant_ejes"/>
+                <field name="chasis_marca"/>
+                <field name="tipo_vehiculo"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Outsourced fleet Form Views -->
+    <record id="tms_third_fleet_form" model="ir.ui.view">
+        <field name="name">fleet.third.tms.form</field>
+        <field name="model">fleet.third.tms</field>
+        <field name="arch" type="xml">
+            <form string="Outsourced Fleet">
+                <sheet string="Fleet">
+                <group>
+                    <group string="Datos">
+                        <field name="name"/>
+                        <field name="belonging_to" domain="[('es_transportista','=','si')]"/>
+                        <field name="año"/>
+                        <field name="pais"/>
+                    </group>
+                    <group string="Datos técnicos">
+                        <field name="nro_chasis"/>
+                        <field name="cant_ejes"/>
+                        <field name="chasis_marca"/>
+                        <field name="tipo_vehiculo"/>
+                    </group>
+                </group>
+                <div>
+                    <field name="note" placeholder="Note..." decoration-bf="note"/>
+                </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Outsourced fleet Action -->
+
+    <record id="action_tms_third_fleet" model="ir.actions.act_window">
+        <field name="name">Flota Tercerizada</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fleet.third.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear flota tercerizada !
+            </p>
+        </field>
+    </record>
+
+
+
+    <!-- <menuitem id="tms_label_outsourced_service" name="Servicios Tercerizados" parent="tms_menu_config"/>
+
+        <menuitem id="tms_action_third_employee" name="Empleado Tercerizado" parent="tms_label_outsourced_service" action="action_tms_third_employee"/>
+
+        <menuitem id="tms_action_third_fleet" name="Flota Tercerizada" parent="tms_label_outsourced_service" action="action_tms_third_fleet"/> -->
+
+<!-- 
+
+    <record id="tms_permission_third_fleet_tree" model="ir.ui.view">
+        <field name="name">permission.fleet.third.tms.tree</field>
+        <field name="model">permission.fleet.third.tms</field>
+        <field name="arch" type="xml">
+            <tree string="País">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="tms_permission_third_fleet_form" model="ir.ui.view">
+        <field name="name">fleet.third.tms.form</field>
+        <field name="model">permission.fleet.third.tms</field>
+        <field name="arch" type="xml">
+            <form string="País">
+                <sheet string="País">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tms_permission_third_fleet" model="ir.actions.act_window">
+        <field name="name">País para permisos internacionales</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">permission.fleet.third.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear país  !
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_label_permission_third_employee" name="Permisos Internacionales" parent="tms_menu_config"/>
+
+        <menuitem id="tms_action_permission_third_employee" name="Países" parent="tms_label_permission_third_employee" action="action_tms_permission_third_fleet"/>
+ -->
+
+</odoo>

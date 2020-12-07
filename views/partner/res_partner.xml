@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista form de purchases  -->
+        <record model="ir.ui.view" id="res_partner_transportista_form">
+            <field name="name">Contactos</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="before">
+                    <field name="es_transportista" widget="radio"/>
+                </xpath>
+
+
+                <xpath expr="//notebook/page[2]" position="before">
+                    <page string="Transportista" attrs="{'invisible': [('es_transportista','!=','si')]}">                          
+                    <group string="Datos CNRT">
+                        <group>
+                            <field name="paut" decoration-danger="empresa_habilitada==False"/>
+                            <field name="n_empresa" decoration-danger="empresa_habilitada==False"/>
+                        </group>
+                        <group>
+                            <field name="empresa_habilitada" widget="boolean_toggle"/>
+                            <button name="get_flota_cuit" string="Generar/Actualizar Flota" class="btn btn-info" type="object" attrs="{'invisible': [('empresa_habilitada','!=',True)]}" />
+                        </group>
+                        <field name="ids_fleet_supplier" nolabel="1" attrs="{'invisible': [('empresa_habilitada','!=',True)]}">
+                            <tree editable="buttom" >
+                                <field name="name"/>
+                                <field name="año"/>
+                                <field name="nro_chasis"/>
+                                <field name="cant_ejes"/>
+                                <field name="pais"/>
+                                <field name="chasis_marca"/>
+                                <field name="tipo_vehiculo"/>
+                                <!-- <field name="permiso_origen"/> -->
+                            </tree>
+                        </field>
+                    </group>
+                    </page>                    
+                </xpath>
+            </field>
+        </record>
+
+
+<!-- Empresa Transportista -->
+
+    <record id="action_partner_empresa_transportista_tms" model="ir.actions.act_window">
+        <field name="name">Empresa Transportista</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="context">{'default_es_transportista': 'si', 'default_is_company': True, 'default_supplier_rank': 1}</field>
+        <field name="domain">[('es_transportista', '=', 'si')]</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Crear nueva Empresa Transportista !
+            </p>
+        </field>
+    </record>
+
+
+        <menuitem id="tms_menu_partner" name="Contactos" parent="tms_root" sequence="2"/>
+
+            <menuitem id="tms_label_partner" name="Contactos" parent="tms_menu_partner" sequence="1"/>
+
+
+                <menuitem id="tms_action_partner_customer" name="Clientes" parent="tms_label_partner" action="account.res_partner_action_customer"/>
+
+                <menuitem id="tms_action_partner_supplier" name="Proveedores" parent="tms_label_partner" action="account.res_partner_action_supplier"/>
+
+            <menuitem id="tms_label_partner_transportista" name="Transportistas" parent="tms_menu_partner" sequence="2"/>
+
+
+                <menuitem id="tms_action_partner_transportista" name="Empresas Transportistas" parent="tms_label_partner_transportista" action="action_partner_empresa_transportista_tms" sequence="1"/>
+
+                <menuitem id="tms_action_third_employee" name="Empleados" parent="tms_label_partner_transportista" action="action_tms_third_employee" sequence="2"/>
+
+                <menuitem id="tms_action_third_fleet" name="Flota" parent="tms_label_partner_transportista" action="action_tms_third_fleet" sequence="3"/>
+
+
+
+    </data>
+</odoo> 

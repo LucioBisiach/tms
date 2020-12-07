@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <record model="ir.ui.view" id="inherit_fleet_vehicle_tms">
+        <field name="name">Fleet</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="services_view" type="object" icon="fa-file" string="Documentos">
+                    <field string="Servicios" name="" widget="statinfo"/>
+                </button>
+            </div>
+
+        
+        </field>
+    </record> -->
+
+
+
+</odoo>

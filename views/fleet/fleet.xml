@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="hr_fleet_vehicle_inherit_form_view">
+        <field name="name">fleet.vehicle.form.view</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+
+        <!-- Campos y grupos ocultos -->
+
+
+            <xpath expr="//button[@name='open_assignation_logs']" position="attributes">            
+                <attribute name="invisible">True</attribute>
+            </xpath>  
+            <xpath expr="//button[@icon='fa-book']" position="attributes">            
+                <attribute name="invisible">True</attribute>
+            </xpath>  
+            <xpath expr="//button[@icon='fa-usd']" position="attributes">             
+                <attribute name="invisible">True</attribute>
+            </xpath> 
+            <xpath expr="//button[@icon='fa-flask']" position="attributes">            
+                <attribute name="invisible">True</attribute>
+            </xpath> 
+            <xpath expr="//button[@icon='fa-tachometer']" position="attributes">            
+                <attribute name="invisible">True</attribute>
+            </xpath>  
+            <xpath expr="//button[@icon='fa-wrench']" position="attributes">            
+                <attribute name="invisible">True</attribute>
+            </xpath>  
+
+            <!-- <xpath expr="//div[@name='open_assignation_logs']" position="attributes">            
+                <attribute name="invisible">True</attribute>
+            </xpath>   -->
+            <xpath expr="//group/group[1]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//group/group[3]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//group/group[5]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <field name="car_value" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="net_car_value" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="residual_value" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="seats" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+
+            <!-- Campos TMS - Se simplifica la vista -->
+
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="return_action_to_open_service" type="object" icon="fa-history" string="Servicios" context="{'xml_id':'action_own_services_tms'}">
+                </button>
+                <button class="oe_stat_button" name="return_action_to_open" type="object" icon="fa-tachometer" string="Odometro" context="{'xml_id':'action_odometer_services_tms'}">
+                </button>
+                <button class="oe_stat_button" name="return_action_to_open" type="object" icon="fa-flask" string="Combustible" context="{'xml_id':'action_combustible_fleet_tms'}">
+                </button>
+            </div>
+
+            <field name="residual_value" position="after">
+                <field name="maximo_permitido"/>
+            </field>
+            <field name="seats" position="after">
+                <field name="qty_ejes"/>
+            </field>
+            <field name="seats" position="after">
+                <field name="qty_ejes"/>
+            </field>
+            <field name="odometer" position="replace">
+                <field name="ultimo_odometro"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_inherit_fleet_tms" model="ir.actions.act_window">
+        <field name="name">Fleet</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fleet.vehicle</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tms.fleet_tms_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create nuevo vehíuclo !
+            </p>
+        </field>
+    </record>
+
+    <record id="fleet_tms_tree" model="ir.ui.view">
+        <field name="name">fleet.vehicle.tree</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="arch" type="xml">
+            <tree string="Flota">
+                <field name="license_plate"/>
+                <field name="model_id"/>
+                <field name="ultimo_odometro"/>
+                <field name="acquisition_date"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <menuitem id="tms_menu_fleet" name="Flota" parent="tms_root" sequence="5"/>
+
+        <menuitem id="tms_label_fleet" name="Flota" parent="tms_menu_fleet"/>
+
+            <menuitem id="tms_action_inherit_fleet" name="Flota" parent="tms_label_fleet" action="action_inherit_fleet_tms"/>
+
+            
+    <!-- Odometer Tree Views -->
+
+    <record id="odometer_services_tms_tree" model="ir.ui.view">
+        <field name="name">odometer.services.tms.tree</field>
+        <field name="model">odometer.services.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Odometro" default_order="odo_end desc, odo_start desc,date desc">
+                <field name="odo_start" string="Odometro inicial"/>
+                <field name="odo_end" string="Odometro Final"/>
+                <field name="name" string="Vehículo"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="odometer_services_tms_form" model="ir.ui.view">
+        <field name="name">odometer.services.tms.form</field>
+        <field name="model">odometer.services.tms</field>
+        <field name="arch" type="xml">
+            <form string="Odometro">
+                <sheet string="Odometro">
+                <group>
+                    <group string="Datos Principales">
+                        <field name="odo_total"/>
+                        <field name="name" />
+                        <field name="odo_start"/>
+                        <field name="odo_end"/>
+                    </group>
+                    <group string="Otros Datos">
+                        <field name="employee" /> 
+                        <field name="ref_services" /> 
+                    </group>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_odometer_services_tms" model="ir.actions.act_window">
+        <field name="name">Odometros</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">odometer.services.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by': ['name']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear nuevo registro de Kilometraje
+            </p>
+        </field>
+    </record>
+    
+        <menuitem id="tms_label_fleet_datos" name="Datos" parent="tms_menu_fleet"/>
+
+
+            <menuitem id="tms_action_odometer_services_tms" name="Registro de Kilometraje" parent="tms_label_fleet_datos" action="action_odometer_services_tms"/>
+
+<!-- Registro de Combustible -->
+
+
+    <record id="combustible_fleet_tms_tree" model="ir.ui.view">
+        <field name="name">combustible.fleet.tms.tree</field>
+        <field name="model">combustible.fleet.tms</field>
+        <field name="arch" type="xml">
+            <tree string="Registro de Combustible" default_order="odometro desc, date desc"
+            decoration-danger="rendimiento &gt; maximo_permitido"
+            decoration-success="rendimiento &lt; maximo_permitido"
+            >
+                <field name="name"/>
+                <field name="date" />
+                <field name="odometro"/> 
+                <field name="litros"/> 
+                <field name="distancia_recorrida"/>
+                <field name="rendimiento"/>
+                <field name="maximo_permitido" invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="combustible_fleet_tms_form" model="ir.ui.view">
+        <field name="name">combustible.fleet.tms.form</field>
+        <field name="model">combustible.fleet.tms</field>
+        <field name="arch" type="xml">
+            <form string="Registro de Combustible">
+                <sheet string="Registro de Combustible">
+                <group string="Datos">
+                    <group >
+                        <field name="name"/>
+                        <field name="date" />
+                        <field name="maximo_permitido"/>
+                        <field name="tiene_documento" />
+                        <field name="factura_adjunta" attrs="{'invisible': [('tiene_documento','=',False)]}"/>
+                    </group>
+                    <group>
+                        <field name="odometro"/> 
+                        <field name="litros" /> 
+                        <button name="get_calcular_rendimiento" string="Calcular Distancia y Rendimiento" icon="fa-refresh" class="btn btn-info" type="object"/>    
+                        <field name="rendimiento"/>
+                        <field name="distancia_recorrida"/>
+                    </group>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_combustible_fleet_tms" model="ir.actions.act_window">
+        <field name="name">Registro de Combustible</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">combustible.fleet.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by': 'name'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear nuevo registro de Combustible
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_action_combustible_fleet_tms" name="Registro de Combustible" parent="tms_label_fleet_datos" action="action_combustible_fleet_tms"/>
+
+
+    <record id="combustible_fleet_tms_graph" model="ir.ui.view">
+        <field name="name">combustible.fleet.tms.graph</field>
+        <field name="model">combustible.fleet.tms</field>
+        <field name="arch" type="xml">
+            <graph string="Registro de Combustible"  type="line">
+                <field name="odometro" type="row"/>
+                <field name="rendimiento" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="action_combustible_fleet_tms_graph" model="ir.actions.act_window">
+        <field name="name">Registro de Combustible</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">combustible.fleet.tms</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="tms.combustible_fleet_tms_graph" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Gráfico de Registro de Combustible
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="tms_action_combustible_fleet_tms_graph" name="Gráfica de Rendimiento" parent="tms_label_fleet_datos" action="action_combustible_fleet_tms_graph"/>
+
+
+
+</odoo>

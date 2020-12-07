@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+
+        <menuitem id="tms_menu_dashboard" name="Panel de Control" parent="tms_root" sequence="0"/>
+
+
+
+    </data>
+</odoo>

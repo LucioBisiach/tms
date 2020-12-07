@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Gestión de Transporte',
+    'version': '13.1',
+    'summary': """Módulo que permite gestionar servicios de transporte""",
+    'description': 'Módulo que permite gestionar tanto los documentos, las compras y las ventas de servicios realizados',
+    "category": "Services",
+    'author': 'Bisiach Lucio',
+    'company': 'Bisiach Lucio',
+    'website': "",
+    'depends': ['base', 'hr', 'fleet', 'contacts', 'purchase', 'sale_management', 'account_check', 'web_timeline'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/menu/menu.xml',
+        'views/config/config.xml',
+        'views/services/services.xml',
+        'views/services/services_report.xml',
+        'views/fleet/fleet.xml',
+        'views/fleet/inherit_fleet.xml',   
+        'views/employee/employee.xml',
+        'views/sale_and_purchase/purchase_order.xml',
+        'views/sale_and_purchase/sale_order.xml',
+        'views/partner/res_partner.xml',
+        'views/documents/expiry_documents.xml',
+        'views/account/account.xml',
+        'views/dashboard/dashboard.xml',
+        
+        #DATA
+        'data/ir_sequence.xml',
+        'data/default_data.xml',
+    ],
+    'images': ['static/description/banner.png'],
+    'license': 'AGPL-3',
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+}

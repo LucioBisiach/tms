@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="default_country_permission_fleet_third_tms_ar" model="permission.fleet.third.tms">
+        <field name="name">AR</field>
+    </record>
+
+    <record id="default_country_permission_fleet_third_tms_bo" model="permission.fleet.third.tms">
+        <field name="name">BO</field>
+    </record>
+
+    <record id="default_country_permission_fleet_third_tms_cl" model="permission.fleet.third.tms">
+        <field name="name">CL</field>
+    </record>
+
+    <record id="default_country_permission_fleet_third_tms_br" model="permission.fleet.third.tms">
+        <field name="name">BR</field>
+    </record>
+
+    <record id="default_country_permission_fleet_third_tms_py" model="permission.fleet.third.tms">
+        <field name="name">PY</field>
+    </record>
+
+    <record id="default_country_permission_fleet_third_tms_uy" model="permission.fleet.third.tms">
+        <field name="name">UY</field>
+    </record>
+
+</odoo>

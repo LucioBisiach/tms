@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="action_account_customer_tms" model="ir.actions.act_window">
+        <field name="name">Due Customer Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="context">{'default_type': 'out_invoice'}</field>
+        <field name="domain">[('type', '=', 'out_invoice')]</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create Invoice !
+            </p>
+        </field>
+    </record>
+
+    <record id="action_account_due_customer_tms" model="ir.actions.act_window">
+        <field name="name">Due Customer Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="context">{'default_type': 'out_invoice'}</field>
+        <field name="domain">[('invoice_payment_state','=','not_paid'), ('type', '=', 'out_invoice')]</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create Invoice !
+            </p>
+        </field>
+    </record>
+
+    <record id="action_account_supplier_tms" model="ir.actions.act_window">
+        <field name="name">Due Supplier Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="context">{'default_type': 'in_invoice'}</field>
+        <field name="domain">[('type', '=', 'in_invoice')]</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create Invoice !
+            </p>
+        </field>
+    </record>
+
+    <record id="action_account_due_supplier_tms" model="ir.actions.act_window">
+        <field name="name">Due Supplier Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="context">{'default_type': 'in_invoice'}</field>
+        <field name="domain">[('invoice_payment_state','=','not_paid'), ('type', '=', 'in_invoice')]</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create Invoice !
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="tms_menu_account" name="Facturación" parent="tms_root" sequence="3"/>
+
+        <menuitem id="tms_label_customer" name="Clientes" parent="tms_menu_account"/>
+
+            <menuitem id="tms_action_invoice_customer" name="Facturas de Cliente" parent="tms_label_customer" action="action_account_customer_tms"/>
+
+            <menuitem id="tms_action_due_invoice_customer" name="Deuda de Cliente" parent="tms_label_customer" action="action_account_due_customer_tms"/>
+
+
+        <menuitem id="tms_label_supplier" name="Proveedor" parent="tms_menu_account"/>
+
+            <menuitem id="tms_action_invoice_supplier" name="Facturas de Proveedor" parent="tms_label_supplier" action="action_account_supplier_tms"/>
+
+            <menuitem id="tms_action_due_invoice_supplier" name="Deuda de Proveedor" parent="tms_label_supplier" action="action_account_due_supplier_tms"/>
+
+
+    <record id="action_account_own_check_tms" model="ir.actions.act_window">
+        <field name="name">Own Check</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.check</field>
+        <field name="context">{'default_type': 'in_invoice'}</field>
+        <field name="domain">[('state','=','holding'), ('type', '=', 'issue_check')]</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create Invoice !
+            </p>
+        </field>
+    </record>
+
+
+    <record id="action_account_third_check_tms" model="ir.actions.act_window">
+        <field name="name">Third Check</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.check</field>
+        <field name="context">{'default_type': 'in_invoice'}</field>
+        <field name="domain">[('state','=','holding'), ('type', '=', 'third_check')]</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create Invoice !
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_label_account_check" name="Cheques" parent="tms_menu_account"/>
+
+            <menuitem id="tms_action_check_own" name="Cheques Propios" parent="tms_label_account_check" action="action_account_own_check_tms"/>
+
+            <menuitem id="tms_action_check_third" name="Cheques de Terceros" parent="tms_label_account_check" action="action_account_third_check_tms"/>
+
+</odoo>

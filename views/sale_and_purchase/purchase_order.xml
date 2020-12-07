@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="purchase_order_add_form">
+            <field name="name">Purchase Order</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="service_id" readonly="True"/>
+                </xpath>
+
+                <xpath expr="//field[@name='service_id']" position="after">
+                    <field name="es_gasto" />
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo> 

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    <report
+        id="report_service"
+        model="services.tms"
+        string="Reporte - Orden de Servicio"
+        report_type="qweb-pdf"
+        name="tms.report_service_tms_template"
+        />
+
+        <template id="report_service_tms_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="obj">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+
+                                <div class="col-xs-4" style="padding:0;">
+                                    <table style="border: 2px solid black;border-spacing:0;margin-bottom:0;height:100px;" class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th style="text-align: center; vertical-align: middle;" colspan="2">
+                                                    <h2>Servicio N°: <span t-esc="obj.name"/> - <span t-esc="obj.label_service"/></h2>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="row mt32 mb32" id="informations">
+                                    <div  class="col-auto mw-100 mb-6">
+                                        <h4>Cliente:</h4>
+                                        <p class="m-0" t-field="obj.customer"/>
+                                    </div>
+
+                                    <div class="col-auto mw-100 mb-6">
+                                        <h4>Proveedor:</h4>
+                                        <p class="m-0" t-field="obj.supplier"/>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row mt32 mb32" id="informations">
+                                    <div  class="col-auto mw-100 mb-6">
+                                        <h4>N° Referencia / RUTA:</h4>
+                                        <p class="m-0" t-field="obj.n_ref"/>
+                                    </div>
+                                </div>
+                                <br/>                              
+                                <div class="row mt32 mb32" id="data">
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Fecha Inicio</h4>
+                                        <p class="m-0" t-field="obj.date_start"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Fecha Fin</h4>
+                                        <p class="m-0" t-field="obj.date_stop"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Asignado A</h4>
+                                        <p class="m-0" t-field="obj.employee"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Tractor</h4>
+                                        <p class="m-0" t-field="obj.fleet"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Acoplado</h4>
+                                        <p class="m-0" t-field="obj.fleet_add"/>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Origen</h4>
+                                        <p class="m-0" t-foreach="obj.location_load" t-as="l"><span t-esc="l.name"/></p>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Destino</h4>
+                                        <p class="m-0" t-foreach="obj.location_download" t-as="l"><span t-esc="l.name"/></p>
+                                    </div>
+                                    <div class="col-auto mw-100 mb-6 text-center">
+                                        <h4>Remitos</h4>
+                                        <p class="m-0" t-foreach="obj.lst_documents" t-as="l"><span t-esc="l.name"/></p>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+
+                                <div class="oe_structure"/>
+                                <h4>Nota:</h4>
+                                <p t-field="obj.note" />
+                                
+                        </div>            
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+
+</odoo>

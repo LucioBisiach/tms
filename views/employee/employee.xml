@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="hr_employee_expiry_document_inherit_form_view">
+        <field name="name">hr.employee.form.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="service_view" type="object" icon="fa-list-ol">
+                    <field string="Servicios" name="service_count" widget="statinfo"/>
+                </button>
+            </div>
+            <div class="oe_button_box" position="inside">
+                <button name="return_action_to_open"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-file"
+                    context="{'xml_id':'resumen_hr_employee_services'}"
+                    help="Muestra los servicios mensuales por empleado">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_text">Res. Mensual
+                        </span>
+                    </div>
+                </button>
+            </div>
+            <page name="public" position="before">
+                <page name="employee_dates" string="Dashboard">
+                    <group string="Resumen">
+
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="action_inherit_employee_tms" model="ir.actions.act_window">
+        <field name="name">Employee</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create new Employee !
+            </p>
+        </field>
+    </record>
+
+
+
+
+    <menuitem id="tms_menu_employee" name="Empleados" parent="tms_root" sequence="4"/>
+
+        <menuitem id="tms_label_employee" name="Empleados" parent="tms_menu_employee"/>
+
+            <menuitem id="tms_action_inherit_employee" name="Empleados" parent="tms_label_employee" action="action_inherit_employee_tms"/>
+
+
+
+    <!-- RESUMEN MENSUAL -->
+
+
+<!-- Vista Sueldos Empleados -->
+
+    <record id="resumen_hr_employee_tree" model="ir.ui.view">
+        <field name="name">resumen.hr.employee.tree</field>
+        <field name="model">resumen.hr.employee</field>
+        <field name="arch" type="xml">
+            <tree string="Resumen mensual por empleado">
+                <field name="name"/>
+                <field name="employee"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Formulario -->
+    <record id="resumen_hr_employee_form" model="ir.ui.view">
+        <field name="name">resumen.hr.employee.form</field>
+        <field name="model">resumen.hr.employee</field>
+        <field name="arch" type="xml">
+            <form string="Resumen mensual por empleado">
+                <sheet string="Resumen mensual por empleado">
+                    <div>
+                        <h2>
+                            <field name="name" decoration-bf="name" placeholder="Mes"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <field name="employee"/>
+                        <field name="date_start"/>
+                        <field name="date_stop"/>
+                    </group>
+                    <notebook>
+                        <page name="servicios_realizados" string="Servicios">
+                            <group>
+                                <field name="lista_servicios" nolabel="1" >
+                                    <tree string="Servicios" editable="buttom">
+                                        <field name="name"/>
+                                        <field name="label_service"/>
+                                        <field name="customer"/>
+                                        <field name="employee" invisible="True"/>
+                                        <field name="fleet"/>
+                                        <field name="date_start"/>
+                                        <field name="date_stop"/>
+                                        <field name="location_load" widget="many2many_tags"/>
+                                        <field name="location_download" widget="many2many_tags"/>
+                                        <field name="ids_odometer" widget="many2many_tags" string="Km Recorridos"  />
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="resumen_hr_employee_services" model="ir.actions.act_window">
+        <field name="name">Resumen mensual por empleado</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">resumen.hr.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear Resumen Mensual !
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="tms_action_hr_employee_services" name="Resumen mensual" parent="tms_label_employee" action="resumen_hr_employee_services"/>
+
+
+</odoo>

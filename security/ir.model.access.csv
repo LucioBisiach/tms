@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_services_tms,access.services.tms,model_services_tms,base.group_user,1,1,1,1
+access_document_services_tms,access.document.services.tms,model_document_services_tms,base.group_user,1,1,1,1
+access_odometer_services_tms,access.odometer.services.tms,model_odometer_services_tms,base.group_user,1,1,1,1
+
+access_places_tms,access.places.tms,model_places_tms,base.group_user,1,1,1,1
+access_employee_third_tms,access.employee.third.tms,model_employee_third_tms,base.group_user,1,1,1,1
+access_fleet_third_tms,access.fleet.third.tms,model_fleet_third_tms,base.group_user,1,1,1,1
+access_permission_fleet_third_tms,access.permission.fleet.third.tms,model_permission_fleet_third_tms,base.group_user,1,1,1,1
+
+access_expiry_documents_tms,access.expiry.documents.tms,model_expiry_documents_tms,base.group_user,1,1,1,1
+access_list_expiry_documents_tms,access.list.expiry.documents.tms,model_list_expiry_documents_tms,base.group_user,1,1,1,1
+access_resumen_hr_employee,access.resumen.hr.employee,model_resumen_hr_employee,base.group_user,1,1,1,1
+access_combustible_fleet_tms,access.combustible.fleet.tms,model_combustible_fleet_tms,base.group_user,1,1,1,1
