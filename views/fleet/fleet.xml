@@ -57,7 +57,7 @@
             <!-- Campos TMS - Se simplifica la vista -->
 
             <div class="oe_button_box" position="inside">
-                <button class="oe_stat_button" name="return_action_to_open_service" type="object" icon="fa-history" string="Servicios" context="{'xml_id':'action_own_services_tms'}">
+                <button class="oe_stat_button" name="return_action_to_open_service_and_expiry_document" type="object" icon="fa-history" string="Servicios" context="{'xml_id':'action_own_services_tms'}">
                 </button>
                 <button class="oe_stat_button" name="return_action_to_open" type="object" icon="fa-tachometer" string="Odometro" context="{'xml_id':'action_odometer_services_tms'}">
                 </button>
@@ -71,11 +71,20 @@
             <field name="seats" position="after">
                 <field name="qty_ejes"/>
             </field>
-            <field name="seats" position="after">
-                <field name="qty_ejes"/>
+            <field name="qty_ejes" position="before">
+                <field name="tipo_vehiculo"/>
             </field>
             <field name="odometer" position="replace">
                 <field name="ultimo_odometro"/>
+            </field>
+            <field name="license_plate" position="after">
+                <h5>
+                    <field name="email_notificacion" placeholder="Email Notificación" string="Email Notificación"/>
+                    <br/>
+                    <field name="cuit_registro" placeholder="CUIT Registrado" string="CUIT Registrado"/>
+                </h5>
+                <button class="btn btn-info" name="datos_cnrt_segun_cuit" type="object" icon="fa-refresh"/>
+                <br/>
             </field>
         </field>
     </record>
@@ -211,7 +220,7 @@
                     <group>
                         <field name="odometro"/> 
                         <field name="litros" /> 
-                        <button name="get_calcular_rendimiento" string="Calcular Distancia y Rendimiento" icon="fa-refresh" class="btn btn-info" type="object"/>    
+                        <!-- <button name="get_calcular_rendimiento" string="Calcular Distancia y Rendimiento" icon="fa-refresh" class="btn btn-info" type="object"/>     -->
                         <field name="rendimiento"/>
                         <field name="distancia_recorrida"/>
                     </group>

@@ -5,8 +5,12 @@
 from odoo import api, fields, models, _
 
 from datetime import datetime
-
+import requests
+import urllib
+import json
 import time
+from odoo.exceptions import ValidationError
+
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -20,8 +24,40 @@ class inheritEmployeeTms(models.Model):
     ultimo_odometro = fields.Integer(string="Ultimo Odometro", compute="_get_ultimo_odometro", default=0)
     
     cuit_registro = fields.Char(sstring="CUIT Registro")
-        
+    API_BASE_URL = "https://consultapme.cnrt.gob.ar/api/"
+
     maximo_permitido = fields.Float(string="Rendimiento Max. Permitido")
+    
+    tipo_vehiculo = fields.Selection([
+        ('TRACTOR','Tractor'),
+        ('SEMIRREMOLQUE','Semirremolque'),
+        ('CAMIÓN','Camión'),
+        ('ACOPLADO','Acoplado'),
+        ('BATEA','Batea'),
+        ('FURGÓN','Furgón'),
+        ('CAMIONETA','Camioneta'),
+        ('CARRETON','Carretón'),], string="Tipo")
+    
+    email_notificacion = fields.Char(string="Email para Venccimientos")
+
+    def datos_cnrt_segun_cuit(self):
+        if self.cuit_registro and self.license_plate:
+            res_fleet = requests.get(self.API_BASE_URL + "vehiculo_cargas_habilitadospordocumento/CUIT/" + self.cuit_registro + ".json")
+            if res_fleet.status_code == 200:
+                fleetJsonObject = res_fleet.json()
+                for data in fleetJsonObject:
+                    if data['dominio'] == self.license_plate:
+                        _logger.info("Dominio: %s", data['dominio'])
+                        self.model_year = data['anio_modelo']
+                        self.vin_sn = data['nro_chasis']
+                        self.qty_ejes = data['cantidad_ejes']
+                        self.tipo_vehiculo = data['tipo_vehiculo']
+            else:
+                raise ValidationError("404 Not Found")
+        else:
+            raise ValidationError("Ingrese cuit y patente")
+
+            
 
     def _get_ultimo_odometro(self):
         for obj in self:
@@ -67,7 +103,7 @@ class inheritEmployeeTms(models.Model):
             return res
         return False
     
-    def return_action_to_open_service(self):
+    def return_action_to_open_service_and_expiry_document(self):
         self.ensure_one()
         xml_id = self.env.context.get('xml_id')
         if xml_id:

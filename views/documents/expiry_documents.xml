@@ -28,7 +28,7 @@
                         <group name="notification">
                             <field name="days_notification"/>
                             <field name="frecuencia_notifiacion"/>
-                            
+                            <field name="notificacion_compania" attrs="{'invisible': [('tipe','!=','company')]}"/>
                         </group>
                     </group>
                     <notebook>
@@ -43,6 +43,7 @@
                                     <field name="tipe" invisible="True"/>
                                     <field name="document_pdf_filename" invisible="1"/>
                                     <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="File"/> 
+                                    <button class="btn btn-info" type="object" name="notificacion_vencimiento" icon="fa-refresh"/>
                                 </tree>
                             </field>
                         </page>
