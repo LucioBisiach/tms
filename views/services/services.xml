@@ -322,7 +322,7 @@
         <field name="name">document.services.tms.tree</field>
         <field name="model">document.services.tms</field>
         <field name="arch" type="xml">
-            <tree string="Documents of Services" create="0" editable="bottom">
+            <tree string="Documentos de Servicios" create="0" editable="bottom">
                 <field name="name"/>
                 <field name="ref_services"/>
                 <field name="n_ref"/>
@@ -337,7 +337,7 @@
         <field name="model">document.services.tms</field>
         <field name="arch" type="xml">
             <form >
-                <sheet string="Documents of Services">
+                <sheet string="Documentos de Servicios">
                     <div>
                         <h2>
                             <field name="name" decoration-bf="name"/>
@@ -357,7 +357,7 @@
 
 
     <record id="action_documents_services_tms" model="ir.actions.act_window">
-        <field name="name">Document of Services</field>
+        <field name="name">Documentos de Servicios</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">document.services.tms</field>
         <field name="view_mode">tree,kanban,form</field>

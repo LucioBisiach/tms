@@ -284,7 +284,7 @@ class documentServiceTms(models.Model):
     document_pdf_filename = fields.Char(string="Nombre")
     note = fields.Text(string="Nota")
     
-    doc_service_attachment_id = fields.Many2many('ir.attachment', 'doc_attach_service_rel', 'doc_id', 'attach_id3', string="Attachment",
+    doc_service_attachment_id = fields.Many2many('ir.attachment', 'doc_attach_service_rel', 'doc_id', 'attach_id3', string="Adjunto",
                                         help='You can attach the copy of your document', copy=False)
     def _get_n_ref(self):
         for obj in self:
@@ -314,7 +314,7 @@ class ServicesDocumentAttachment(models.Model):
     _inherit = 'ir.attachment'
 
     doc_attach_service_rel = fields.Many2many('document.services.tms', 'doc_attachment_id', 'attach_id3', 'doc_id',
-                                    string="Attachment", invisible=1)
+                                    string="Adjunto", invisible=1)
             
     
 class saleOrderInherit(models.Model):

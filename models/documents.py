@@ -51,7 +51,7 @@ class ExpiryDocumentAttachment(models.Model):
     _inherit = 'ir.attachment'
 
     doc_attach_expiry_rel = fields.Many2many('list.expiry.documents.tms', 'expiry_doc_attachment_id', 'attach_id3', 'doc_id',
-                                    string="Attachment", invisible=1)
+                                    string="Adjunto", invisible=1)
 
 class listExpiryDocumentsTms(models.Model):
     _name = 'list.expiry.documents.tms'
