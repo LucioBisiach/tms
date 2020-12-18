@@ -262,6 +262,17 @@ class serviceTms(models.Model):
     def status_cancelled(self):
         self.state = 'cancelled'
         
+    def return_action_to_open_document(self):
+        self.ensure_one()
+        xml_id = self.env.context.get('xml_id')
+        if xml_id:
+            res = self.env['ir.actions.act_window'].for_xml_id('tms', xml_id)
+            res.update(
+                context=dict(self.env.context, default_ref_services=self.id, group_by=False),
+                domain=[('ref_services', '=', self.id)]
+            )
+            return res
+        return False
     
 class documentServiceTms(models.Model):
     _name = 'document.services.tms'
@@ -273,7 +284,8 @@ class documentServiceTms(models.Model):
     document_pdf_filename = fields.Char(string="Nombre")
     note = fields.Text(string="Nota")
     
-
+    doc_service_attachment_id = fields.Many2many('ir.attachment', 'doc_attach_service_rel', 'doc_id', 'attach_id3', string="Attachment",
+                                        help='You can attach the copy of your document', copy=False)
     def _get_n_ref(self):
         for obj in self:
             obj.n_ref = obj.ref_services.n_ref
@@ -291,11 +303,20 @@ class odometerServiceTms(models.Model):
     odo_end = fields.Integer(string="Final")
     odo_total = fields.Integer(string="Total", compute="_get_total")
     note = fields.Text(string="Nota")
+
+
                 
     def _get_total(self):
         for obj in self:
             obj.odo_total = obj.odo_end - obj.odo_start            
+        
+class ServicesDocumentAttachment(models.Model):
+    _inherit = 'ir.attachment'
+
+    doc_attach_service_rel = fields.Many2many('document.services.tms', 'doc_attachment_id', 'attach_id3', 'doc_id',
+                                    string="Attachment", invisible=1)
             
+    
 class saleOrderInherit(models.Model):
     _inherit = 'sale.order'
 

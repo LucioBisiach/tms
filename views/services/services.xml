@@ -136,8 +136,7 @@
                                     <tree editable="buttom">
                                         <field name="name" string="Document Number"/>
                                         <field name="n_ref" string="Reference Number" invisible="True"/>
-                                        <field name="document_pdf_filename" invisible="1"/>
-                                        <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="File"/> 
+                                        <field name="doc_service_attachment_id" widget="many2many_binary"/>
                                         <field name="note" string="Note"/>
                                     </tree>
                                 </field>
@@ -327,8 +326,7 @@
                 <field name="name"/>
                 <field name="ref_services"/>
                 <field name="n_ref"/>
-                <field name="document_pdf_filename" invisible="1"/>
-                <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="Archivo"/> 
+                <field name="doc_service_attachment_id" widget="many2many_binary"/>
             </tree>
         </field>
     </record>
@@ -346,15 +344,12 @@
                         </h2>
                     </div>
                     <group>
-                        <group>
-                            <field name="ref_services"/>
-                            <field name="n_ref"/>
-                        </group>
-                        <group>
-                            <field name="document_pdf_filename" invisible="1"/>
-                            <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="Archivo"/> 
-                        </group>
+                        <field name="ref_services"/>
+                        <field name="n_ref"/>
                     </group>
+                    <div>
+                        <field name="doc_service_attachment_id" widget="many2many_binary"/>
+                    </div>
                 </sheet>
             </form>
         </field>
@@ -368,11 +363,10 @@
         <field name="view_mode">tree,kanban,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-            Create Document of Service !
+            Crear documento asociado al servicio!
             </p>
         </field>
     </record>
-
 
     <menuitem id="tms_label_services_document" name="Documentos de Servicios" parent="tms_menu_services"/>
 

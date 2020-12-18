@@ -46,7 +46,12 @@ class expiryDocumentsTms(models.Model):
             
             
     list_expiry_document = fields.One2many('list.expiry.documents.tms', 'name', string="Vencimiento", ondelete="cascade")
+    
+class ExpiryDocumentAttachment(models.Model):
+    _inherit = 'ir.attachment'
 
+    doc_attach_expiry_rel = fields.Many2many('list.expiry.documents.tms', 'expiry_doc_attachment_id', 'attach_id3', 'doc_id',
+                                    string="Attachment", invisible=1)
 
 class listExpiryDocumentsTms(models.Model):
     _name = 'list.expiry.documents.tms'
@@ -66,8 +71,8 @@ class listExpiryDocumentsTms(models.Model):
     
     archived = fields.Boolean(string="Archivado")
     
-    document_pdf = fields.Binary(string="Archio")
-    document_pdf_filename = fields.Char(string="Nombre")
+    doc_expiry_attachment_id = fields.Many2many('ir.attachment', 'doc_attach_expiry_rel', 'doc_id', 'attach_id3', string="Adjunto",
+                                        help='You can attach the copy of your document', copy=False)
     
     tipe = fields.Char(string="Tipo", invisible=True)
     document_name = fields.Char(string="Nombre Doc", compute="_get_document_name")

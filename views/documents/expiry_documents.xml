@@ -41,8 +41,7 @@
                                     <field name="state"/>
                                     <field name="archived"/>
                                     <field name="tipe" invisible="True"/>
-                                    <field name="document_pdf_filename" invisible="1"/>
-                                    <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="File"/> 
+                                    <field name="doc_expiry_attachment_id" widget="many2many_binary"/>
                                     <button class="btn btn-info" type="object" name="notificacion_vencimiento" icon="fa-refresh"/>
                                 </tree>
                             </field>
@@ -97,8 +96,7 @@
                             <field name="days_remaining"/>
                         </group>
                         <group>
-                            <field name="document_pdf_filename" invisible="1"/>
-                            <field widget="binary" height="64" name="document_pdf" filename="document_pdf_filename" string="File"/> 
+                            <field name="doc_expiry_attachment_id" widget="many2many_binary"/>
                         </group>
                     </group>
                 </sheet>
