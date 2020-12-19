@@ -7,6 +7,11 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <div class="oe_button_box" position="inside">
+                <button class="oe_stat_button" name="expiry_document_view" type="object" icon="fa-check-square-o">
+                    <span class="o_stat_text">Documentos</span>
+                </button>
+            </div>
+            <div class="oe_button_box" position="inside">
                 <button class="oe_stat_button" name="service_view" type="object" icon="fa-list-ol">
                     <field string="Servicios" name="service_count" widget="statinfo"/>
                 </button>

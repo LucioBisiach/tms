@@ -34,6 +34,25 @@ class inheritEmployeeTms(models.Model):
             'limit': 80,
             'context': "{'default_employee': '%s'}" % self.id
         }
+        
+    def expiry_document_view(self):
+        self.ensure_one()
+        domain = [
+            ('employee', '=', self.id)]
+        return {
+            'name': _('Services'),
+            'domain': domain,
+            'res_model': 'expiry.documents.tms',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_employee': '%s'}" % self.id
+        }
 
     def return_action_to_open(self):
         self.ensure_one()
