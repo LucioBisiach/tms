@@ -8,7 +8,7 @@
         <field name="name">places.tms.tree</field>
         <field name="model">places.tms</field>
         <field name="arch" type="xml">
-            <tree string="List of Locations">
+            <tree string="Lista de Localidades">
                 <field name="name"/>
                 <field name="url_googlemaps" widget="url"/> 
             </tree>
@@ -20,8 +20,8 @@
         <field name="name">places.tms.form</field>
         <field name="model">places.tms</field>
         <field name="arch" type="xml">
-            <form string="Locations">
-                <sheet string="Locations">
+            <form string="Lista de Localidades">
+                <sheet string="Localidades">
                 <group>
                     <group>
                         <field name="name"/>
@@ -41,13 +41,13 @@
     <!-- Location Action -->
 
     <record id="action_tms_places" model="ir.actions.act_window">
-        <field name="name">Locations</field>
+        <field name="name">Localidades</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">places.tms</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create Location Load / Download !
+                Crear Localidad de Carga / Descarga!
             </p>
         </field>
     </record>

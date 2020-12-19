@@ -63,6 +63,9 @@
                 </button>
                 <button class="oe_stat_button" name="return_action_to_open" type="object" icon="fa-flask" string="Combustible" context="{'xml_id':'action_combustible_fleet_tms'}">
                 </button>
+                <button class="oe_stat_button" name="expiry_document_view" type="object" icon="fa-file">
+                    <span class="o_stat_text">Documentos</span>
+                </button>
             </div>
 
             <field name="residual_value" position="after">

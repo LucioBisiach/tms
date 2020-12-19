@@ -40,7 +40,7 @@ class inheritEmployeeTms(models.Model):
         domain = [
             ('employee', '=', self.id)]
         return {
-            'name': _('Services'),
+            'name': _('Vencimientos'),
             'domain': domain,
             'res_model': 'expiry.documents.tms',
             'type': 'ir.actions.act_window',

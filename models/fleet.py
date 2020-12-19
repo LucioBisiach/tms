@@ -116,7 +116,24 @@ class inheritEmployeeTms(models.Model):
         return False
 
 
-
+    def expiry_document_view(self):
+        self.ensure_one()
+        domain = [
+            ('fleet', '=', self.id)]
+        return {
+            'name': _('Vencimientos'),
+            'domain': domain,
+            'res_model': 'expiry.documents.tms',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_fleet': '%s'}" % self.id
+        }
 
 class combustibleFleetVehicle(models.Model):
     _name = 'combustible.fleet.tms'
@@ -126,14 +143,15 @@ class combustibleFleetVehicle(models.Model):
     date = fields.Date(string="Fecha")
     odometro = fields.Integer(string="Odometro")
     litros = fields.Float(string="Litros")
-    rendimiento = fields.Float(string="Rendimiento")
+    rendimiento = fields.Float(string="Rendimiento", readonly=True)
     maximo_permitido = fields.Float(string="Rendimiento Max. Permitido", compute="_get_rendimiento_permitido")
-    distancia_recorrida = fields.Integer(string="Distancia Recorrida")
+    distancia_recorrida = fields.Integer(string="Distancia Recorrida", readonly=True)
     
     tiene_documento = fields.Boolean(string="Tiene documento?", default=False)
     factura_adjunta = fields.Many2one('account.move', context={'default_type': 'in_invoice'})
     
-        
+
+    
     @api.depends('name')
     def _get_rendimiento_permitido(self):
         for obj in self:
