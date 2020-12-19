@@ -75,12 +75,12 @@
             <menuitem id="tms_action_due_invoice_supplier" name="Deuda de Proveedor" parent="tms_label_supplier" action="action_account_due_supplier_tms"/>
 
 
-    <record id="action_account_own_check_tms" model="ir.actions.act_window">
+    <record id="action_account_own__tms" model="ir.actions.act_window">
         <field name="name">Own Check</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">account.check</field>
+        <field name="res_model">account.</field>
         <field name="context">{'default_type': 'in_invoice'}</field>
-        <field name="domain">[('state','=','holding'), ('type', '=', 'issue_check')]</field>
+        <field name="domain">[('state','=','holding'), ('type', '=', 'issue_')]</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -90,12 +90,12 @@
     </record>
 
 
-    <record id="action_account_third_check_tms" model="ir.actions.act_window">
+    <record id="action_account_third__tms" model="ir.actions.act_window">
         <field name="name">Third Check</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">account.check</field>
+        <field name="res_model">account.</field>
         <field name="context">{'default_type': 'in_invoice'}</field>
-        <field name="domain">[('state','=','holding'), ('type', '=', 'third_check')]</field>
+        <field name="domain">[('state','=','holding'), ('type', '=', 'third_')]</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -104,10 +104,10 @@
         </field>
     </record>
 
-    <menuitem id="tms_label_account_check" name="Cheques" parent="tms_menu_account"/>
+    <menuitem id="tms_label_account_" name="Cheques" parent="tms_menu_account"/>
 
-            <menuitem id="tms_action_check_own" name="Cheques Propios" parent="tms_label_account_check" action="action_account_own_check_tms"/>
+            <menuitem id="tms_action__own" name="Cheques Propios" parent="tms_label_account_" action="action_account_own__tms"/>
 
-            <menuitem id="tms_action_check_third" name="Cheques de Terceros" parent="tms_label_account_check" action="action_account_third_check_tms"/>
+            <menuitem id="tms_action__third" name="Cheques de Terceros" parent="tms_label_account_" action="action_account_third__tms"/>
 
 </odoo>

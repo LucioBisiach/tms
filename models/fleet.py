@@ -116,6 +116,8 @@ class inheritEmployeeTms(models.Model):
         return False
 
 
+
+
 class combustibleFleetVehicle(models.Model):
     _name = 'combustible.fleet.tms'
     _description = 'registro de combustible'
@@ -124,7 +126,7 @@ class combustibleFleetVehicle(models.Model):
     date = fields.Date(string="Fecha")
     odometro = fields.Integer(string="Odometro")
     litros = fields.Float(string="Litros")
-    rendimiento = fields.Float(string="Rendimiento")
+    rendimiento = fields.Float(string="Rendimiento", compute="_get_calcular_rendimiento")
     maximo_permitido = fields.Float(string="Rendimiento Max. Permitido", compute="_get_rendimiento_permitido")
     distancia_recorrida = fields.Integer(string="Distancia Recorrida")
     
@@ -138,7 +140,7 @@ class combustibleFleetVehicle(models.Model):
             obj.maximo_permitido = obj.name.maximo_permitido
     
     @api.depends('odometro')
-    def get_calcular_rendimiento(self):
+    def _get_calcular_rendimiento(self):
         lst_combustible_filtrada = self.search([('name', 'in', self.name.ids), ('odometro', '<', self.odometro)])
         if len(lst_combustible_filtrada) > 0:
             maximo = max(lst_combustible_filtrada, key=lambda o: o.odometro)

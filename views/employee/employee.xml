@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <div class="oe_button_box" position="inside">
-                <button class="oe_stat_button" name="expiry_document_view" type="object" icon="fa-check-square-o">
+                <button class="oe_stat_button" name="expiry_document_view" type="object" icon="fa-file">
                     <span class="o_stat_text">Documentos</span>
                 </button>
             </div>
@@ -20,7 +20,7 @@
                 <button name="return_action_to_open"
                     type="object"
                     class="oe_stat_button"
-                    icon="fa-file"
+                    icon="fa-check-square-o"
                     context="{'xml_id':'resumen_hr_employee_services'}"
                     help="Muestra los servicios mensuales por empleado">
                     <div class="o_field_widget o_stat_info">
@@ -109,7 +109,7 @@
                                         <field name="date_stop"/>
                                         <field name="location_load" widget="many2many_tags"/>
                                         <field name="location_download" widget="many2many_tags"/>
-                                        <field name="ids_odometer" widget="many2many_tags" string="Km Recorridos"  />
+                                        <!-- <field name="ids_odometer" widget="many2many_tags" string="Km Recorridos"  /> -->
                                     </tree>
                                 </field>
                             </group>
