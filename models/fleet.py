@@ -134,6 +134,25 @@ class inheritEmployeeTms(models.Model):
             'limit': 80,
             'context': "{'default_fleet': '%s'}" % self.id
         }
+        
+    def static_document_view(self):
+        self.ensure_one()
+        domain = [
+            ('fleet', '=', self.id)]
+        return {
+            'name': _('Documentos'),
+            'domain': domain,
+            'res_model': 'document.fleet.tms',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'view_type': 'form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                           Click to Create for New Documents
+                        </p>'''),
+            'limit': 80,
+            'context': "{'default_fleet': '%s'}" % self.id
+        }
 
 class combustibleFleetVehicle(models.Model):
     _name = 'combustible.fleet.tms'
@@ -168,6 +187,19 @@ class combustibleFleetVehicle(models.Model):
         else:
             max_valor_a_comparar = 0
             
-            
+class DocumentosFleetVehicle(models.Model):
+    _name = 'document.fleet.tms'
+    _description = 'registro de combustible'  
+    
+    name = fields.Char(string="Documento")  
+    fleet = fields.Many2one('fleet.vehicle', string="Vehículo Asignado")     
         
+  
+    doc_fleet_attachment_id = fields.Many2many('ir.attachment', 'doc_attach_fleet_rel', 'doc_id', 'attach_id3', string="Adjunto",
+                                        help='You can attach the copy of your document', copy=False)
 
+class FleetDocumentAttachment(models.Model):
+    _inherit = 'ir.attachment'
+
+    doc_attach_fleet_rel = fields.Many2many('document.fleet.tms', 'doc_fleet_attachment_id', 'attach_id3', 'doc_id',
+                                    string="Adjunto", invisible=1)

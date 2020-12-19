@@ -12,3 +12,4 @@ access_expiry_documents_tms,access.expiry.documents.tms,model_expiry_documents_t
 access_list_expiry_documents_tms,access.list.expiry.documents.tms,model_list_expiry_documents_tms,base.group_user,1,1,1,1
 access_resumen_hr_employee,access.resumen.hr.employee,model_resumen_hr_employee,base.group_user,1,1,1,1
 access_combustible_fleet_tms,access.combustible.fleet.tms,model_combustible_fleet_tms,base.group_user,1,1,1,1
+access_document_fleet_tms,access.document.fleet.tms,model_document_fleet_tms,base.group_user,1,1,1,1
