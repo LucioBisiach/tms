@@ -220,9 +220,9 @@
                     <group>
                         <field name="odometro"/> 
                         <field name="litros" /> 
-                        <!-- <button name="get_calcular_rendimiento" string="Calcular Distancia y Rendimiento" icon="fa-refresh" class="btn btn-info" type="object"/>     -->
                         <field name="rendimiento"/>
                         <field name="distancia_recorrida"/>
+                        <button name="get_calcular_rendimiento" string="Calcular Distancia y Rendimiento" icon="fa-refresh" class="btn btn-info" type="object"/>
                     </group>
                 </group>
                 </sheet>
