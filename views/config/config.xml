@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-
     <!-- Location Tree Views -->
 
     <record id="tms_places_tree" model="ir.ui.view">
@@ -85,7 +84,7 @@
                 <sheet string="Employee">
                     <div>
                         <h2>
-                            <field name="name" decoration-bf="name" placeholder="Name"/>
+                            <field name="name" decoration-bf="name" placeholder="Documento"/>
                         </h2>
                     </div>
                     <group>
@@ -185,54 +184,37 @@
     </record>
 
 
-
-    <!-- <menuitem id="tms_label_outsourced_service" name="Servicios Tercerizados" parent="tms_menu_config"/>
-
-        <menuitem id="tms_action_third_employee" name="Empleado Tercerizado" parent="tms_label_outsourced_service" action="action_tms_third_employee"/>
-
-        <menuitem id="tms_action_third_fleet" name="Flota Tercerizada" parent="tms_label_outsourced_service" action="action_tms_third_fleet"/> -->
-
-<!-- 
-
-    <record id="tms_permission_third_fleet_tree" model="ir.ui.view">
-        <field name="name">permission.fleet.third.tms.tree</field>
-        <field name="model">permission.fleet.third.tms</field>
+    <!-- Expiry document type Tree Views -->
+ 
+    <record id="tipe_vencimientos_tms_tree" model="ir.ui.view">
+        <field name="name">type.vencimientos.tms.tree</field>
+        <field name="model">type.vencimientos.tms</field>
         <field name="arch" type="xml">
-            <tree string="País">
+            <tree string="Lista de Documentos">
                 <field name="name"/>
+                <field name="tipe"/>
+                <field name="days_notification"/>
             </tree>
         </field>
     </record>
 
-    <record id="tms_permission_third_fleet_form" model="ir.ui.view">
-        <field name="name">fleet.third.tms.form</field>
-        <field name="model">permission.fleet.third.tms</field>
-        <field name="arch" type="xml">
-            <form string="País">
-                <sheet string="País">
-                    <group>
-                        <field name="name"/>
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="action_tms_permission_third_fleet" model="ir.actions.act_window">
-        <field name="name">País para permisos internacionales</field>
+    <record id="action_tipe_vencimientos_tms" model="ir.actions.act_window">
+        <field name="name">Tipo de Vencimientos</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">permission.fleet.third.tms</field>
+        <field name="res_model">type.vencimientos.tms</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Crear país  !
+                Crear tipo de Vencimiento!
             </p>
         </field>
     </record>
 
-    <menuitem id="tms_label_permission_third_employee" name="Permisos Internacionales" parent="tms_menu_config"/>
 
-        <menuitem id="tms_action_permission_third_employee" name="Países" parent="tms_label_permission_third_employee" action="action_tms_permission_third_fleet"/>
- -->
+        <menuitem id="tms_label_type_vencimientos_tms" name="Vencimientos" parent="tms_menu_config"/>
+
+            <menuitem id="action_type_vencimientos_tms_places" name="Tipo de Vencimientos" parent="tms_label_type_vencimientos_tms" action="action_tipe_vencimientos_tms"/>
+
+
 
 </odoo>

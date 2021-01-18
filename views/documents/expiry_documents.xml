@@ -4,57 +4,9 @@
 <!-- Vistas de linea de vencimiento y formulario para empleados flota y compañia -->
 
 
-    <record id="expiry_documents_tms_form" model="ir.ui.view">
-        <field name="name">expiry.documents.tms.form</field>
-        <field name="model">expiry.documents.tms</field>
-        <field name="arch" type="xml">
-            <form string="Vencimientos">
-                <sheet string="Documents">
-                    <div>
-                        <h2>
-                            <field name="name" decoration-bf="name" placeholder="Name"/>
-                        </h2>
-                        <h5>
-                            <field name="tipe" decoration-bf="tipe" placeholder="Type..."/>
-                        </h5>
-                    </div>
-                    <group>
-                        <group name="fleet" attrs="{'invisible': [('tipe','!=','fleet')]}">
-                            <field name="fleet"/>
-                        </group>
-                        <group name="employee" attrs="{'invisible': [('tipe','!=','employee')]}">
-                            <field name="employee"/>
-                        </group>
-                        <group name="notification">
-                            <field name="days_notification"/>
-                            <field name="frecuencia_notifiacion"/>
-                            <field name="notificacion_compania" attrs="{'invisible': [('tipe','!=','company')]}"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="expiry_list" string="Expiry Documents">
-                            <field name="list_expiry_document">
-                                <tree editable="buttom">
-                                    <field name="name"/>
-                                    <field name="date_stop"/>
-                                    <field name="days_remaining"/>
-                                    <field name="state"/>
-                                    <field name="archived"/>
-                                    <field name="tipe" invisible="True"/>
-                                    <field name="doc_expiry_attachment_id" widget="many2many_binary"/>
-                                    <button class="btn btn-info" type="object" name="notificacion_vencimiento" icon="fa-refresh"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
-        </field>
-    </record> 
-
-    <record id="expiry_list_documents_tms_tree" model="ir.ui.view">
-        <field name="name">list.expiry.documents.tms.tree</field>
-        <field name="model">list.expiry.documents.tms</field>
+    <record id="vencimientos_tms_tree" model="ir.ui.view">
+        <field name="name">vencimientos.tms.tree</field>
+        <field name="model">vencimientos.tms</field>
         <field name="arch" type="xml">
             <tree string="Vencimientos"
             decoration-danger="state=='defeated' or state=='today'" 
@@ -62,10 +14,8 @@
             decoration-warning="state=='next'"
             decoration-bf="state=='defeated' or state=='today' or state=='next'"
             default_order="date_stop asc"
-            create="0" editable="bottom"
             >
                 <field name="name"/>
-                <field name="document_name"/>
                 <field name="date_stop"/>
                 <field name="days_remaining"/>
                 <field name="state" widget="label_selection"/>
@@ -73,9 +23,9 @@
         </field>
     </record>
     
-    <record id="expiry_list_documents_tms_form" model="ir.ui.view">
-        <field name="name">list.expiry.documents.tms.form</field>
-        <field name="model">list.expiry.documents.tms</field>
+    <record id="vencimientos_tms_form" model="ir.ui.view">
+        <field name="name">vencimientos.tms.form</field>
+        <field name="model">vencimientos.tms</field>
         <field name="arch" type="xml">
             <form string="Vencimientos">
                 <header>
@@ -84,11 +34,13 @@
                 <sheet string="Expiry Document">
                     <div>
                         <h2>
-                            <field name="name" decoration-bf="name" placeholder="Name"/>
+                            <field name="name" decoration-bf="name" placeholder="Documento"/>
+			                <field name="tipe" invisible="True"/>
                         </h2>
-                        <h5>
-                            <field name="document_name" decoration-bf="document_name" placeholder="Type..."/>
-                        </h5>
+                        <h4>
+                            <field name="fleet" placeholder="Vehiculo" attrs="{'invisible': [('tipe','!=','fleet')]}"/>    
+                            <field name="employee" placeholder="Empleado" attrs="{'invisible': [('tipe','!=','employee')]}"/>   
+                        </h4>
                     </div>
                     <group>
                         <group>
@@ -104,41 +56,13 @@
         </field>
     </record>
 
-
-    <record id="expiry_documents_tms_fleet_tree" model="ir.ui.view">
-        <field name="name">fleet.expiry.documents.tms.tree</field>
-        <field name="model">expiry.documents.tms</field>
-        <field name="arch" type="xml">
-            <tree string="Vencimientos">
-                <field name="name"/>
-                <field name="fleet"/>
-                <field name="tipe"/>
-            </tree>
-        </field>
-    </record>
-
-
-    <record id="action_list_document_fleet_tms" model="ir.actions.act_window">
+    <record id="action_document_fleet_tms" model="ir.actions.act_window">
         <field name="name">Vencimientos de flota</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">list.expiry.documents.tms</field>
+        <field name="res_model">vencimientos.tms</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('archived','=',False), ('tipe','=','fleet')]</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-            Crear nuevo vencimiento !
-            </p>
-        </field>
-    </record>
-
-    <record id="action_group_document_fleet_tms" model="ir.actions.act_window">
-        <field name="name">Vencimientos de flota</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">expiry.documents.tms</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('tipe', '=', 'fleet')]</field>
         <field name="context">{'default_tipe': 'fleet'}</field>
-        <field name="view_id" ref="tms.expiry_documents_tms_fleet_tree" />
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
             Crear nuevo vencimiento !
@@ -147,39 +71,14 @@
     </record>
 
 
-
-    <menuitem id="tms_menu_expiry_documents" name="Vencimientos" parent="tms_root" sequence="3"/>
-
-            
-        <menuitem id="tms_label_expiry_document_fleet" name="Flota" parent="tms_menu_expiry_documents"/>
-
-            <menuitem id="tms_menu_expiry_documents_fleet" name="Vencimientos" parent="tms_label_expiry_document_fleet" action="action_list_document_fleet_tms"/>
-
-            <menuitem id="tms_menu_expiry_documents_group_fleet" name="Grupo de Vencimientos" parent="tms_label_expiry_document_fleet" action="action_group_document_fleet_tms"/>
-
-
-
-    <record id="expiry_documents_tms_employee_tree" model="ir.ui.view">
-        <field name="name">employee.expiry.documents.tms.tree</field>
-        <field name="model">expiry.documents.tms</field>
-        <field name="arch" type="xml">
-            <tree string="Vencimientos">
-                <field name="name"/>
-                <field name="employee"/>
-                <field name="tipe"/>
-            </tree>
-        </field>
-    </record>
-
-
-
-
-    <record id="action_list_document_employee_tms" model="ir.actions.act_window">
+    <record id="action_document_employee_tms" model="ir.actions.act_window">
         <field name="name">Employee Documents</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">list.expiry.documents.tms</field>
+        <field name="res_model">vencimientos.tms</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('archived','=',False), ('tipe','=','employee')]</field>
+        <field name="context">{'default_tipe': 'employee'}</field>
+
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
             Create new Expiry Document !
@@ -187,49 +86,14 @@
         </field>
     </record>
         
-    <record id="action_employee_document_tms" model="ir.actions.act_window">
-        <field name="name">Employee Documents</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">expiry.documents.tms</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('tipe', '=', 'employee')]</field>
-        <field name="context">{'default_tipe': 'employee'}</field>
-
-        <field name="view_id" ref="tms.expiry_documents_tms_employee_tree" />
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-            Create new Expiry Document !
-            </p>
-        </field>
-    </record>
 
 
-    <menuitem id="tms_label_expiry_document_employee" name="Empleado" parent="tms_menu_expiry_documents"/>
-
-        <menuitem id="tms_menu_expiry_documents_employee" name="Vencimientos" parent="tms_label_expiry_document_employee" action="action_list_document_employee_tms"/>
-
-        <menuitem id="tms_menu_expiry_documents_group_employee" name="Grupo de Vencimientos" parent="tms_label_expiry_document_employee" action="action_employee_document_tms"/>
-
-
-    <record id="action_list_document_company_tms" model="ir.actions.act_window">
+    <record id="action_document_company_tms" model="ir.actions.act_window">
         <field name="name">Vencimientos de la compañia</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">list.expiry.documents.tms</field>
+        <field name="res_model">vencimientos.tms</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('archived','=',False), ('tipe','=','company')]</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-            crear nuevo vencimiento!
-            </p>
-        </field>
-    </record>
-    
-    <record id="action_company_document_tms" model="ir.actions.act_window">
-        <field name="name">Vencimientos de la compañia</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">expiry.documents.tms</field>
-        <field name="view_mode">tree,form</field>
-        <field name="domain">[('tipe', '=', 'company')]</field>
         <field name="context">{'default_tipe': 'company'}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -238,11 +102,29 @@
         </field>
     </record>
 
-    <menuitem id="tms_label_expiry_document_company" name="Compañia" parent="tms_menu_expiry_documents"/>
+    <record id="action_document_otros_tms" model="ir.actions.act_window">
+        <field name="name">Otros vencimientos</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">vencimientos.tms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('archived','=',False), ('tipe','=','otros')]</field>
+        <field name="context">{'default_tipe': 'otros'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            crear nuevo vencimiento!
+            </p>
+        </field>
+    </record>
+    
 
-        <menuitem id="tms_menu_expiry_documents_company" name="Vencimientos" parent="tms_label_expiry_document_company" action="action_list_document_company_tms"/>
+    <menuitem id="tms_menu_vencimientos" name="Vencimientos" parent="tms_root" sequence="3"/>
 
-        <menuitem id="tms_menu_expiry_documents_group_company" name="Grupo de Vencimientos" parent="tms_label_expiry_document_company" action="action_company_document_tms"/>
+        <menuitem id="tms_menu_vencimientos_fleet" name="Flota" parent="tms_menu_vencimientos" action="action_document_fleet_tms"/>
 
+        <menuitem id="tms_menu_vencimientos_employee" name="Empleados" parent="tms_menu_vencimientos" action="action_document_employee_tms"/>
+
+        <menuitem id="tms_menu_vencimientos_company" name="Compañia" parent="tms_menu_vencimientos" action="action_document_company_tms"/>
+
+        <menuitem id="tms_menu_vencimientos_otros" name="Otros" parent="tms_menu_vencimientos" action="action_document_otros_tms"/>
 
 </odoo>

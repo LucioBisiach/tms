@@ -96,18 +96,7 @@
         </field>
     </record>
 
-    <record id="action_inherit_fleet_tms" model="ir.actions.act_window">
-        <field name="name">Fleet</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">fleet.vehicle</field>
-        <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="tms.fleet_tms_tree" />
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-            Create nuevo vehíuclo !
-            </p>
-        </field>
-    </record>
+
 
     <record id="fleet_tms_tree" model="ir.ui.view">
         <field name="name">fleet.vehicle.tree</field>
@@ -122,7 +111,18 @@
         </field>
     </record>
 
-
+    <record id="action_inherit_fleet_tms" model="ir.actions.act_window">
+        <field name="name">Fleet</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fleet.vehicle</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="tms.fleet_tms_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create nuevo vehíuclo !
+            </p>
+        </field>
+    </record>
 
     <menuitem id="tms_menu_fleet" name="Flota" parent="tms_root" sequence="5"/>
 

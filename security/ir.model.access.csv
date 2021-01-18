@@ -8,8 +8,10 @@ access_employee_third_tms,access.employee.third.tms,model_employee_third_tms,bas
 access_fleet_third_tms,access.fleet.third.tms,model_fleet_third_tms,base.group_user,1,1,1,1
 access_permission_fleet_third_tms,access.permission.fleet.third.tms,model_permission_fleet_third_tms,base.group_user,1,1,1,1
 
-access_expiry_documents_tms,access.expiry.documents.tms,model_expiry_documents_tms,base.group_user,1,1,1,1
-access_list_expiry_documents_tms,access.list.expiry.documents.tms,model_list_expiry_documents_tms,base.group_user,1,1,1,1
+access_vencimientos_tms,access.vencimientos.tms,model_vencimientos_tms,base.group_user,1,1,1,1
+
+access_type_vencimientos_tms,access.type.vencimientos.tms,model_type_vencimientos_tms,base.group_user,1,1,1,1
+
 access_resumen_hr_employee,access.resumen.hr.employee,model_resumen_hr_employee,base.group_user,1,1,1,1
 access_combustible_fleet_tms,access.combustible.fleet.tms,model_combustible_fleet_tms,base.group_user,1,1,1,1
 access_document_fleet_tms,access.document.fleet.tms,model_document_fleet_tms,base.group_user,1,1,1,1

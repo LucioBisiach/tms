@@ -175,7 +175,6 @@
         </field>
     </record>
     
-    <menuitem id="tms_action_services" name="Lista de Servicios" parent="tms_label_services" action="action_services_tms" sequence="1"/>
 
 
     <record id="tms_own_services_tree" model="ir.ui.view">
@@ -223,6 +222,8 @@
     <menuitem id="tms_menu_services" name="Servicios" parent="tms_root" sequence="1"/>
     
         <menuitem id="tms_label_services" name="Servicios" parent="tms_menu_services"/>
+
+            <menuitem id="tms_action_services" name="Lista de Servicios" parent="tms_label_services" action="action_services_tms" sequence="1"/>
 
             <menuitem id="tms_action_own_services" name="Propios" parent="tms_label_services" action="action_own_services_tms" sequence="2"/>
 
