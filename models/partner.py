@@ -24,7 +24,9 @@ class inheritResPartnerTms(models.Model):
     es_transportista = fields.Selection([
         ('si','Si'),
         ('no','No')], string="Es Transportista?")
-    
+
+    empresa_transportista = fields.Boolean(string="Empresa Transportista")
+
     API_BASE_URL = "https://consultapme.cnrt.gob.ar/api/"
 
     paut = fields.Char(string="PAUT", help="Padrón único de Transportistas", compute="_get_data_cnrt")
@@ -33,11 +35,17 @@ class inheritResPartnerTms(models.Model):
     
     ids_fleet_supplier = fields.Many2many('fleet.third.tms', string="Flota")
  
-    
+
+    @api.onchange('company_type')
+    def _value_empresa_transportista(self):
+        if self.company_type == 'person':
+            self.empresa_transportista = False
+
+
     def _get_data_cnrt(self):
         for obj in self:
             obj.empresa_habilitada = False
-            if obj.es_transportista == 'si':
+            if obj.empresa_transportista == True and obj.vat:
                 if obj.vat and len(obj.vat) == 11:
                     res = requests.get(obj.API_BASE_URL + "empresa_jn_habilitada/cuit/" + obj.vat + ".json")
                     # EMPRESA HABILITADA O NO SEGÚN CUIT

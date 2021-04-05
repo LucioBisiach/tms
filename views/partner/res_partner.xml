@@ -8,13 +8,18 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='type']" position="before">
-                    <field name="es_transportista" widget="radio"/>
-                </xpath>
+
+		<!-- <xpath expr="//field[@name='category_id']" position="after">
+		    <field name="empresa_transportista"/>
+		<xpath> -->
+
+		<field name="category_id" position="after">
+			<field name="empresa_transportista" attrs="{'invisible': [('company_type','=','person')]}" />
+		</field>
 
 
                 <xpath expr="//notebook/page[2]" position="before">
-                    <page string="Transportista" attrs="{'invisible': [('es_transportista','!=','si')]}">                          
+                    <page string="Transportista" attrs="{'invisible': [('empresa_transportista','!=',True)]}">                          
                     <group string="Datos CNRT">
                         <group>
                             <field name="paut" decoration-danger="empresa_habilitada==False"/>
@@ -33,7 +38,6 @@
                                 <field name="pais"/>
                                 <field name="chasis_marca"/>
                                 <field name="tipo_vehiculo"/>
-                                <!-- <field name="permiso_origen"/> -->
                             </tree>
                         </field>
                     </group>
@@ -49,8 +53,8 @@
         <field name="name">Empresa Transportista</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
-        <field name="context">{'default_es_transportista': 'si', 'default_is_company': True, 'default_supplier_rank': 1}</field>
-        <field name="domain">[('es_transportista', '=', 'si')]</field>
+        <field name="context">{'default_empresa_transportista': True, 'default_is_company': True, 'default_supplier_rank': 1}</field>
+        <field name="domain">[('empresa_transportista', '=', True)]</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

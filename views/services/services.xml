@@ -93,7 +93,7 @@
                                     <field name="location_download" widget='many2many_tags' attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                                 <group string="Proveedor" attrs="{'invisible': [('outsourced_service','!=',True)]}">
-                                    <field name="supplier" attrs="{'invisible': [('outsourced_service','=',False)], 'readonly':[('state','!=','draft')]}" domain="[('es_transportista','=','si')]"/>
+                                    <field name="supplier" attrs="{'invisible': [('outsourced_service','=',False)], 'readonly':[('state','!=','draft')]}" domain="[('empresa_transportista','=', True)]"/>
                                 </group>
                                 <group string="Empleado y Flota Tercerizada" attrs="{'invisible': [('outsourced_service','!=',True)]}">
                                     <field name="employee_third" domain="[('belonging_to','=',supplier)]" attrs="{'readonly':[('state','!=','draft')]}"/>
